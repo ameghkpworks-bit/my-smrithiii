@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Love Letter Envelope</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:'Cormorant Garamond',serif;
+  padding:20px;
+  position:relative;
+
+  background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#ff4b8b);
+  background-size:400% 400%;
+  animation:gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG{
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
+}
+
+/* floating hearts */
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+.heart{
+  position:absolute;
+  color:rgba(255,255,255,.22);
+  animation:floatHeart linear infinite;
+  user-select:none;
+}
+
+@keyframes floatHeart{
+
+  from{
+    transform:translateY(100vh) scale(.6);
+    opacity:0;
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  90%{
+    opacity:1;
+  }
+
+  to{
+    transform:translateY(-10vh) scale(1.4);
+    opacity:0;
+  }
+}
+
+/* container */
+.scene{
+  position:relative;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  z-index:2;
+}
+
+.scene:has(.envelope.open){
+  margin-top:256px;
+}
+
+/* envelope */
+.envelope{
+  position:relative;
+  width:min(92vw,620px);
+  height:360px;
+  cursor:pointer;
+  transition:.5s;
+  perspective:1200px;
+  margin-top:100px;
+}
+
+/* bottom envelope body */
+.base{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#7b1e4a,#d81b60);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,.45);
+}
+
+/* left triangle */
+.base::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background:#c2185b;
+  clip-path:polygon(0 0,0 100%,50% 50%);
+}
+
+/* right triangle */
+.base::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background:#ad1457;
+  clip-path:polygon(100% 0,100% 100%,50% 50%);
+}
+
+/* top flap */
+.flap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:55%;
+  background:linear-gradient(180deg,#ff77a9,#c2185b);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:1s ease;
+  z-index:5;
+  box-shadow:0 10px 20px rgba(0,0,0,.25);
+}
+
+/* wax seal */
+.seal{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #ffd7e7, #ff4b8b 65%, #b4004e);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-family:'Great Vibes',cursive;
+  font-size:3rem;
+  z-index:6;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+  transition:.4s;
+}
+
+/* letter */
+.letter{
+  position:absolute;
+  left:6%;
+  bottom:22px;
+  width:90%;
+  height:92%;
+
+  background:linear-gradient(180deg,#fffefc,#fff5fa);
+
+  border-radius:10px;
+  padding:20px;
+  transition:1s cubic-bezier(.22,.61,.36,1);
+  z-index:2;
+
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  isolation:isolate;
+  clip-path: inset(0 round 10px);
+}
+
+/* OPEN STATE */
+.envelope.open .letter{
+  transform:translateY(-94px);
+  height:597px;
+  z-index:10;
+  overflow:hidden;
+
+  animation: romanticFadeZoom 55s infinite linear;
+}
+
+/* inner border */
+.letter::before{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(216,27,96,.18);
+  border-radius:4px;
+  display:none;
+}
+
+.content{
+  position:relative;
+  z-index:2;
+  height:100%;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+/* scrollbar */
+.content::-webkit-scrollbar{
+  width:5px;
+}
+
+.content::-webkit-scrollbar-thumb{
+  background:#d81b60;
+  border-radius:20px;
+}
+
+/* heading */
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:4rem;
+  color:#d81b60;
+  text-align:center;
+  margin-bottom:5px;
+  font-weight:400;
+}
+
+.inner-border{
+  border:1px solid rgba(216,27,96,.18);
+  border-radius:6px;
+  padding:22px;
+  min-height:100%;
+  backdrop-filter:blur(1px);
+}
+
+.subtitle{
+  text-align:center;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:.8rem;
+  color:#b65c87;
+  margin-bottom:24px;
+  font-weight:600;
+}
+
+p{
+  font-size:1.3rem;
+  line-height:1.5;
+  color:#4a2d3b;
+  margin-bottom:12px;
+  padding:3px 8px;
+  border-radius:4px;
+}
+
+.signature{
+  margin-top:18px;
+  text-align:center;
+  font-family:'Great Vibes',cursive;
+  font-size:2.7rem;
+  color:#d81b60;
+}
+
+/* hint text */
+.hint{
+  position:absolute;
+  width:100%;
+  text-align:center;
+  bottom:-40px;
+  color:#ffd3e5;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:.8rem;
+}
+
+/* OPEN STATE */
+.envelope.open .flap{
+  transform:rotateX(180deg);
+}
+
+.envelope.open .seal{
+  opacity:0;
+}
+
+/* slideshow */
+@keyframes romanticFadeZoom {
+
+  0%, 8%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg1.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  10%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg1.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  11%, 18%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg2.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  20%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg2.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  21%, 28%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg3.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  30%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg3.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  31%, 38%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg4.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  40%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg4.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  41%, 48%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg5.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:1;
+  }
+
+  50%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg5.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  51%, 58%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg7.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  60%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg7.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  61%, 68%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg8.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  70%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg8.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  71%, 78%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg9.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  80%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg9.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  81%, 88%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg10.jpeg);
+    background-size:100%;
+    background-position:center;
+    opacity:1;
+  }
+
+  90%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg10.jpeg);
+    background-size:118%;
+    background-position:center;
+    opacity:.85;
+  }
+
+  91%, 100%{
+    background:
+      linear-gradient(rgba(255,255,255,.86), rgba(255,245,250,.18)),
+      url(./assets/amg11.jpeg);
+    background-size:115%;
+    background-position:center;
+    opacity:1;
+  }
+}
+
+/* mobile responsive */
+@media(max-width:700px){
+
+  .envelope{
+    height:250px;
+  }
+
+  .letter{
+    padding:22px;
+  }
+
+  h1{
+    font-size:2.8rem;
+  }
+
+  p{
+    font-size:1rem;
+  }
+
+  .signature{
+    font-size:2rem;
+  }
+
+  .envelope.open .letter{
+    transform:translateY(-57px);
+    height:65vh;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="scene">
+
+  <div class="envelope" id="envelope">
+
+    <div class="base"></div>
+
+    <div class="letter">
+      <div class="content">
+        <div class="inner-border">
+
+          <h1>For My Smrithiii</h1>
+
+          <div class="subtitle">
+            A Letter From My Heart
+          </div>
+
+          <p>My beautiful Smrithiii,</p>
+
+          <p>
+            Yesterday, I let my emotions get the better of me,
+            and I started a fight that hurt both of us.
+          </p>
+
+          <p>
+            Seeing you sad is the worst feeling for me.
+            I deeply regret my actions, and I promise to become better.
+          </p>
+
+          <p>
+            You mean everything to me, and I never want
+            to be the reason for your tears.
+          </p>
+
+          <p>
+            I love you more than words can express.
+            There is nothing I regret more than being the reason
+            your beautiful smile faded.
+          </p>
+
+          <p>
+            You are the most precious part of my life,
+            and the thought of you being hurt because of me
+            breaks my heart.
+          </p>
+
+          <p>
+            I promise to listen more carefully,
+            understand you better,
+            and protect your heart
+            as fiercely as I love it.
+          </p>
+
+          <p>
+            My heart will always belong to you,
+            today and forever.
+            Please forgive me, my Smrithiii. ❤️
+          </p>
+
+          <div class="signature">
+            I Love You Forever
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="flap"></div>
+
+    <div class="seal">S</div>
+
+    <div class="hint">
+      From My Left Side
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Floating Hearts Script -->
+<script>
+const heartsContainer = document.getElementById('hearts');
+
+for(let i = 0; i < 35; i++){
+
+  const heart = document.createElement('div');
+
+  heart.className = 'heart';
+
+  heart.textContent =
+    Math.random() > 0.5 ? '❤' : '✨';
+
+  heart.style.left =
+    Math.random() * 100 + 'vw';
+
+  heart.style.animationDuration =
+    (6 + Math.random() * 8) + 's';
+
+  heart.style.animationDelay =
+    (Math.random() * 8) + 's';
+
+  heart.style.fontSize =
+    (16 + Math.random() * 24) + 'px';
+
+  heartsContainer.appendChild(heart);
+}
+</script>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="./assets/still-love-lyrics_ek9He6qs.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const envelope = document.getElementById('envelope');
+const music = document.getElementById('bgMusic');
+
+music.volume = 0.5;
+
+envelope.addEventListener('click', () => {
+
+  envelope.classList.toggle('open');
+
+  if(envelope.classList.contains('open')){
+
+    music.play();
+
+  }else{
+
+    music.pause();
+    music.currentTime = 0;
+
+  }
+
+});
+</script>
+
+</body>
+</html>
